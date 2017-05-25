@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">  
+        <script src="/javascripts/jquery-2.1.4.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        
+        <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
+    <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.3&key=ebb3310e602e7027987911af5e30be56"></script>
+	</head>
+	
+	
+	<body>
+		<div id="mapContainer" style='width:600px; height:600px;margin:100px auto'>
+		<script>
+			//初始化地图 ， 加载地图
+			
+			
+		   var map = new AMap.Map('mapContainer', {
+		view:new AMap.View2D({
+			resizeEnable: true,
+			center: new AMap.LngLat(116.397428, 39.90923),
+			zoom: 18	
+		})
+    });
+				
+    var evt=null;
+    function eventHandler(event){
+    	evt = event;
+    	$('#myModal').modal('show');
+    }
+    
+    var listener = AMap.event.addListener(map,"click",eventHandler);
+    function dian(){
+    	var marker = new AMap.Marker({
+    		map:map,
+    		position:evt.lnglat,
+    		title:$('#shangNa').val(),
+    		icon:"http://webapi.amap.com/images/0.png",
+    		offset:new AMap.Pixel(-10,-20)
+    	});
+    	marker.setMap(map);
+    	marker.setLabel({
+    		offset:new AMap.Pixel(-10,-20),
+    		content:$('#jie').val()
+    	});
+    }
+		</script>
+		
+		
+		
+		
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							&times;
+						</button>
+						<h4 class="modal-title" id="myModalLabel">
+							信息
+						</h4>
+					</div>
+					<div class="modal-body">
+						名称：<input type="text" id="name" />
+						<br/>简介：<input type="text" id="jie" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+						<button type="button" class="btn btn-primary" onclick='dian();' data-dismiss="modal">
+							提交
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+	</body>
+</html>

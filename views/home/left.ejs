@@ -1,0 +1,11 @@
+<table align='center' height='240'>
+	<tr><td>消息</td></tr>
+	<tr><td>
+	<% if(loginbean.role==1){ %>
+		<a href='#' onclick='renzheng()'>身份认证</a>
+	<% }else if(loginbean.role==2){%>
+		身份认证中
+	<%}%>
+	<a href='/home/pubShop'>发布租赁信息</a>
+	</td></tr>
+</table>

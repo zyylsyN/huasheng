@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="./js/jquery-2.1.4.min.js"></script>
+	<script>
+		function dian(){
+			//$('#dd').load('./hello.html');
+			$.get('/aa',function(rhtml){
+				alert(rhtml);
+				$('#dd').html(rhtml);
+			})
+			$.post('/zhuce')
+		}
+	</script>
+</head>
+<body>
+	<a href="#" onclick='dian()'>装载</a>
+<div id="dd" style="width: 800px;height: 600px; border: 1px solid blue"></div>
+</body>
+</html>
