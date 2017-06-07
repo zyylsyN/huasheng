@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 var sequelize =require('./ModelHeader')();
 
 var UserModel = sequelize.define('users', {
-    id: {type:Sequelize.BIGINT,primaryKey: true},
+	id: {type:Sequelize.BIGINT,primaryKey: true},
     email: Sequelize.STRING,
     pwd: Sequelize.STRING,
     nicheng: Sequelize.STRING,
@@ -11,8 +11,8 @@ var UserModel = sequelize.define('users', {
     role:Sequelize.INTEGER,
     msgnum:Sequelize.INTEGER
 },{
-        timestamps: false,
-        //paranoid: true  //获取不到id的返回值
-    });
+		timestamps: false,
+		//paranoid: true  //获取不到id的返回值
+	});
 
 module.exports = UserModel;

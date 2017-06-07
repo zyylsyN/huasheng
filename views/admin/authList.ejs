@@ -2,10 +2,10 @@
 <script>
 	function authInfo(id){
 		$.get('/admin/authInfo?id='+id,function(rhtml){
-			//alert(rhtml);
 			$('#mbody').html(rhtml);
 			$('#myModal').modal('show');
 		});
+		
 	}
 </script>
 <div class="row">
@@ -47,6 +47,6 @@
 	      </div>
 	      <div class="col-sm-1"></div>
 	      <!-- 模态框（Modal） -->
-	    	<% include ./authInfo %>
+	    	<% include ./authinfo %>
   </body>
 </html>

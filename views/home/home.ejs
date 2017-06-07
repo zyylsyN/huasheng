@@ -1,70 +1,74 @@
- <% include ../head %>
+<% include ../head %>
 <script>
 	function renzheng(){
 		$('#main').load('/home/renzheng.html');
 	}
 	function newMsg(){
 		sendMsgForm.reset();
-		titlelable = '发送新消息';
-		 $('#myModalLabel').text(titlelable);
-		 $('#myModal').modal('show')
+		titlelabel = '发送新消息';
+		$('#myModalLabel').text(titlelabel);
+		$('#myModal').modal('show');
 	}
 	function reply(thisa,rid){
-	    //alert(thisa.parentElement.parentElement.children[0].innerText);
-	    //alert(rid);
-	    reNicheng = thisa.parentElement.parentElement.children[0].innerText;
-	    titlelable = '回复：'+reNicheng;
-	    sendMsgForm.nicheng.value =reNicheng+';';
-	    $('#myModalLabel').text(titlelable);
-	    $('#myModal').modal('show')
+		//alert(thisa.parentElement.parentElement.children[0].innerText);
+		reNicheng = thisa.parentElement.parentElement.children[0].innerText;
+		titlelabel = '回复:'+reNicheng;
+		sendMsgForm.nicheng.value=reNicheng+';';
+		//alert(rid);
+		$('#myModalLabel').text(titlelabel);
+		$('#myModal').modal('show');
 	}
-	function dele(id){
-	$.get('/msg/delnew?id='+id,function(rhtml){
-			alert(rhtml);
-			window.location.href='/home';
-	});
-	}
+	function onSendMsg(){
+	      		$.post('/msg/sendmsg',$('#sendMsgForm').serialize(),function(rehtml){
+	      			if(rehtml==1){
+	      				alert('发送成功');
+	      				$('#myModal').modal('hide');
+	      			}else{
+	      				alert('发送失败');
+	      			}
+	      		});
+	      		return false;
+	      	}
 </script>
 <div class="row">
-<div class="col-sm-1"></div>
-<div class="col-sm-2"  style='background-color: #aaa'>
-	<% include ./left %>
-</div>
-<div class="col-sm-7" id='main'>
-<table class="table table-bordered">
-  <caption>
-  	消息列表
-   <input type="button" value="新消息" style="float: right;" onclick="newMsg()">
-</input>
-  </caption>
-  <thead>
-    <tr>
-      <th>发送者</th>
-      <th>内容</th>
-      <th>发送时间</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-  	<% rs.forEach(function(row){ %>
-    <tr>
-      <td><%-row.nicheng%></td>
-      <td><%-row.message%></td>
-      <td>
-      	<%
-      	time = row.createtime;
-      	%>
-      <%-time.getFullYear()%>年
-      <%-time.getMonth()+1%>月
-      <%-time.getDate()%>日
-      </td>
-      <td>
-      	<a href="#" onclick="reply(this,<%-row.sendid%>)">回复</a>&nbsp;
-      	<a href="#" onclick="dele(<%-row.id%>)">删除</a>
-      </td>
-    </tr>
-    <% }) %>
-                <tr>
+	      <div class="col-sm-1"></div>
+	      <div class="col-sm-2"  style='background-color: #aaa'>
+	      	<% include ./left %>
+	      </div>
+	      <div class="col-sm-7" id='main'>
+	      	<table class="table table-bordered">
+			  <caption>
+			  		消息列表
+			  		<button type="button" class="btn btn-primary" style='float:right' onclick='newMsg()'>新消息</button>
+			  </caption>
+			  <thead>
+			    <tr>
+			      <th>发送者</th>
+			      <th>内容</th>
+			      <th>发送时间</th>
+			      <th>操作</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			  	<% rs.forEach(function(row){ %>
+			    <tr>
+			      <td><%-row.nicheng%></td>
+			      <td><%-row.message%></td>
+			      <td>
+			      	<%
+			      	time = row.createtime;
+			      	%>
+			      <%-time.getFullYear()%>年
+			      <%-time.getMonth()+1%>月
+			      <%-time.getDate()%>日
+			      </td>
+			      <td>
+			      	<a href='#' onclick='reply(this,<%-row.sendid%>)'>回复</a>&nbsp;
+			      	删除
+			      </td>
+			    </tr>
+			    <% }) %>
+			    <tr>
 			    	<% cpage = parseInt(cpage); %>
 			    	<td colspan='4' align='center'>
 			    		共<%-rowCount%>条消息&nbsp;
@@ -82,23 +86,12 @@
 			    		<% } %>
 			    	</td>
 			    </tr>
-  </tbody>
-</table>
-</div>
-<div class="col-sm-1"></div>
-    <script>
-	      	function onSendMsg(){
-	      		$.post('/msg/sendnew',$('#sendMsgForm').serialize(),function(rehtml){
-	      			if(rehtml==1){
-	      				alert('发送成功');
-	      				$('#myModal').modal('hide');
-	      			}else{
-	      				alert('发送失败');
-	      			}
-	      		});
-	      		return false;
-	      	}
-	      </script>
+			  </tbody>
+			</table>
+
+	      </div>
+	      <div class="col-sm-1"></div>
+	      
 	      <!-- 模态框 -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			    <div class="modal-dialog">
@@ -110,7 +103,7 @@
 			            </div>
 			            <div class="modal-body">
 			              <div class="form-group">
-						    <input type="text" class="form-control" name="nicheng" placeholder="请输入收件人昵称,用;分割"><br/>
+						    <input type="text" class="form-control" name="nicheng" placeholder="请填写收件人昵称,多人请用英文分号(;)分割"><br/>
     						<textarea name='message' class="form-control" rows="6" placeholder="请输入消息内容"></textarea>
 						  </div>
 			            </div>
@@ -120,7 +113,9 @@
 			            </div>
 			        </div>
 			       </form>
+			       
 			    </div>
 			</div>
-   </body>
+
+  </body>
 </html>

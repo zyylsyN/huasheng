@@ -2,11 +2,6 @@
 <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0"/>
     <script type="text/javascript"
             src="http://webapi.amap.com/maps?v=1.3&key=ebb3310e602e7027987911af5e30be56"></script>
-<script>
-	function renzheng(){
-		$('#main').load('/home/renzheng.html');
-	}
-</script>
 <style>
 	#myform input{
 		margin-top:6px;
@@ -21,15 +16,36 @@
 		margin-top:6px;
 	}
 </style>
+<script>
+function onSubPub(){
+	if(pubform.shopname.value==''){
+		alert('营业点名称不允许空');
+		pubform.shopname.focus();
+		return false;
+	}
+	if(pubform.shopintr.value==''){
+		alert('营业点简介不允许空');
+		pubform.shopintr.focus();
+		return false;
+	}
+	if(pubform.shoptype.value==0){
+		alert('请选择营业类别');
+		pubform.shoptype.focus();
+		return false;
+	}
+
+	return true;
+}
+</script>
 <div class="row">
 	      <div class="col-sm-1"></div>
 	      <div class="col-sm-2"  style='background-color: #aaa'>
 	      	<% include ./left %>
 	      </div>
 	      <div class="col-sm-8" id='main'>
-	      	<div id='toolbar'>请点击地图相关位置添加您的商铺</div>
+	      	<div id='toolbar' style='font-size:2em'>找到地图中准确位置，点击建立营业点</div>
 	      	<div id="mapContainer" style='margin-top:36px;margin-left:12px;width:100%;height:600px'></div>
-	      <script>
+	      	<script>
 	      		//初始化地图对象，加载地图
 			    var map = new AMap.Map('mapContainer', {
 					view: new AMap.View2D({
@@ -47,7 +63,6 @@
 				});
 
 				function eventHandler(e){
-					alert(e.lng);
 					pubform.lng.value=e.lnglat.getLng();
 					pubform.lat.value=e.lnglat.getLat();
 					$('#myModal').modal('show');
@@ -56,7 +71,8 @@
 	      	</script>
 	      </div>
 	      <div class="col-sm-1"></div>
-	      <!---------------- 模态框 ---------------------------->
+
+<!---------------- 模态框 ---------------------------->
 	      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 			<form name='pubform' method='post' action='./pubshop' onsubmit='return onSubPub();' enctype="multipart/form-data">

@@ -11,9 +11,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/zhuce', function(req, res, next) {
 	Users.create(req.body).then(function(rs){
-		// console.log('插入成功');
-		// console.log(rs);
-		//res.send('插入成功');
 		res.redirect(307,'./login');
 	}).catch(function(err){
 		// console.log('失败');
@@ -38,7 +35,7 @@ router.post('/login', function(req, res, next) {
 			loginbean.role = rs.role;
 			loginbean.msgnum = rs.msgnum;
 			req.session.loginbean=loginbean;
-			res.redirect('/');
+			res.redirect(req.body.url);
 		}else{
 			res.send("<script>alert('email/密码错误');location.href='/';</script>");
 		}
